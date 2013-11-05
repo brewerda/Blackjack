@@ -1,3 +1,12 @@
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 
 
 public class Card {
@@ -12,6 +21,7 @@ public class Card {
 		setValue(value);
 		setSuit(suit);
 		// System.out.println("" + this.value + " of " + suit);
+		
 	}
 	public Card(int value, int value2, String suit) {
 		this.suit = suit;
@@ -30,4 +40,21 @@ public class Card {
 	public void setSuit(String suit) {
 		this.suit = suit;
 	}
+
+
+	private static Image loadImage(String value, String suit) {
+
+		String path = null;
+		Image image = null;
+		try	{
+			path = "cards" + File.separator + value + suit +".png";
+			image = ImageIO.read(new File(path));
+		} catch(IOException e) {
+			System.out.println("Could not load image at path: " + path);
+			System.exit(1);
+		}
+		return image;
+
+
+
 }
