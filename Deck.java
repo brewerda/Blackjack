@@ -48,8 +48,8 @@ public class Deck {
 		for (int i = cards.length - 1; i> 0 ; i--) {
 			Card a = cards[i];
 			int temp = random.nextInt(i);
-			cards[temp] = cards[i];
-			cards[i] = a;
+			cards[i] = cards[temp];
+			cards[temp] = a;
 		}
 	}
 	public void drawCard() {
@@ -57,7 +57,7 @@ public class Deck {
 	}
 	public void print() {
 		for (int i=0; i<cards.length; i++) {
-			System.out.println(cards[i].getValue() + cards[i].getSuit());
+			System.out.println(cards[i].getValue() + " of " +  cards[i].getSuit());
 		}
 	}
 }
