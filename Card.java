@@ -77,7 +77,7 @@ public class Card {
                 String path = null;
                 Image image = null;
                 try        {
-                        path = "Cards" + File.separator + name +".png";
+                        path = "Cards" + File.separator + name + ".png";
                         image = ImageIO.read(new File(path));
                 } catch(IOException e) {
                         System.out.println("Could not load image at path: " + path);
