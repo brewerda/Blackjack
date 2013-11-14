@@ -5,17 +5,17 @@ public class BlackjackApplet extends Applet {
 	private Deck table;
 	private Hand player;
 
-	public void init() {
+	public void init(Graphics g) {
 		table = new Deck();
-		player = new Hand(table);
+		player = new Hand(table, g);
 		
 	}
 
 	public void paint(Graphics g) {
-		table.draw(g, 50);
+		// table.draw(g, 0,50, 51);
 		table.shuffle();
 		// table.draw(g, 200);
-		player.deal(g, 200);
+		player.hand(g,2);
 
 	}
 }
