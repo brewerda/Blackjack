@@ -13,37 +13,43 @@ public class Card {
         private int value;
         private int value2;
         private String suit;
-        private int facenumber;
+        private int faceNumber;
         private String name;
         private Image image;
+        private Image backOfCard;
         int[] values = {1,2,3,4,5,6,7,8,9,10,11,12,13};
 
-        public Card(int facenumber,int value, String suit) {
+        public Card(int value,String suit,int faceNumber) {
                 // setCard(card);
                 this.value = value;
-                this.facenumber = facenumber;
-                this.image = Card.loadImage(getFaceNumber() + suit);
+                this.faceNumber = faceNumber;
+                this.image = Card.loadImage(getfaceNumber() + suit);
+                this.backOfCard = Card.loadImage("back-blue");
                 this.suit = suit;
+                value2 = value;
+                if (value == 1) {
+                	value2 = 11;
+                }
                 // System.out.println("" + this.value + " of " + suit);
                 
         }
-        public Card(int facenumber,int value, int value2, String suit) {
+        public Card(int value,int value2, String suit,int faceNumber) {
                 this.suit = suit;
                 this.value = value;
                 this.value2 = value2;
-                this.facenumber = facenumber;
-                this.image = Card.loadImage(getFaceNumber() + suit);
+                this.faceNumber = faceNumber;
+                this.image = Card.loadImage(getfaceNumber() + suit);
         }
-        public String getFaceNumber() {
-                if(facenumber == 1) {
+        public String getfaceNumber() {
+                if(faceNumber == 1) {
                         return "A";
-                } else if(this.facenumber > 1 && this.facenumber <=10) {
-                        return "" + this.facenumber;
-                } else if(this.facenumber == 11) {
+                } else if(this.faceNumber > 1 && this.faceNumber <=10) {
+                        return "" + this.faceNumber;
+                } else if(this.faceNumber == 11) {
                         return "j";
-                } else if(this.facenumber == 12) {
+                } else if(this.faceNumber == 12) {
                         return "Q";
-                } else if(this.facenumber == 13) {
+                } else if(this.faceNumber == 13) {
                         return "K";
                 } else  {
                         return "";
@@ -51,6 +57,9 @@ public class Card {
         }
         public int getValue() {
                 return this.value;
+        }
+        public int getValue2() {
+        	return this.value2;
         }
         public void setValue(int value) {
                 this.value = value;
@@ -61,15 +70,20 @@ public class Card {
         public void setSuit(String suit) {
                 this.suit = suit;
         }
-        public int getFace() {
-                return this.facenumber;
-        }
-        public void setFace(int facenumber) {
-                this.facenumber = facenumber;
+ 
+        public void setfaceNumber(int faceNumber) {
+                this.faceNumber = faceNumber;
         }
         public void draw(Graphics g, Rectangle r) {
                 g.drawImage(image, r.x, r.y, r.width, r.height, null);
         }
+        public void print() {
+        	System.out.println(value + " " + suit + " " + faceNumber);
+        }
+        public void drawBackOfCard(Graphics g, Rectangle r) {
+            g.drawImage(backOfCard, r.x, r.y, r.width, r.height, null);
+        }
+
 
 
         private static Image loadImage(String name) {
@@ -85,81 +99,6 @@ public class Card {
                 }
                 return image;
             }
-	private int value;
-	private int value2;
-	private String suit;
-	private int facenumber;
-	private String name;
-	pricate Image image;
-	int[] values = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-
-	public Card(int facenumber,int value, String suit) {
-		// setCard(card);
-		this.value = value;
-		this.facenumber = facenumber;
-		this.image = Card.loadImage(getFaceNumber() + suit);
-		this.suit = suit;
-		// System.out.println("" + this.value + " of " + suit);
-		
-	}
-	public Card(int facenumber,int value, int value2, String suit) {
-		this.suit = suit;
-		this.value = value;
-		this.value2 = value2;
-		this.facenumber = facenumber;
-		this.image = Card.loadImage(getFaceNumber() + suit);
-	}
-	public String getFaceNumber() {
-		if(facenumber == 1) {
-			return "A";
-		} else if(this.facenumber > 1 && this.facenumber <=10) {
-			return "" + this.facenumber;
-		} else if(this.facenumber == 11) {
-			return "j";
-		} else if(this.facenumber == 12) {
-			return "Q";
-		} else if(this.facenumber == 13) {
-			return "K";
-		} else  {
-			return "";
-		}
-	}
-	public int getValue() {
-		return this.value;
-	}
-	public void setValue(int value) {
-		this.value = value;
-	}
-	public String getSuit() {
-		return this.suit;
-	}
-	public void setSuit(String suit) {
-		this.suit = suit;
-	}
-	public void getFace() {
-		return this.facenumber;
-	}
-	public void setFace(int facenumber) {
-		this.facenumber = facenumber;
-	}
-	public void draw(Graphics g, Rectangle r) {
-		g.drawImage(image, r.x, r.y, r.width, r.height, null);
-	}
-
-
-	private static Image loadImage(String name) {
-
-		String path = null;
-		Image image = null;
-		try	{
-			path = "Cards" + File.separator + name +".png";
-			image = ImageIO.read(new File(path));
-		} catch(IOException e) {
-			System.out.println("Could not load image at path: " + path);
-			System.exit(1);
-		}
-		return image;
-
 
 
 }

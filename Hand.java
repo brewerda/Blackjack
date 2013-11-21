@@ -1,49 +1,62 @@
-import java.awt.Graphics;
+import java.awt.*;
 
 
 
 public class Hand {	
-	private int totalValue = 0;
-	
-	private int amountOfCards;
-	private Deck cards;
-	public Hand(Deck cards, Graphics g) {
-		int xOffset = 0;
-		Card[] hand = new Card[11];
-		this.cards = cards;
-		int totalValue = 0;
+	private Card[] maxCards;	
+	private int amountOfCards = 0;
+	public Hand() {
+		int total = 0;
+		this.maxCards = new Card[11];
+	}
 
-		for (int i=0; i<hand.length; i++) {
-			if( totalValue < 21) {
-				dealPlayer(g,1);
-			}
-			totalValue += hand[i].getValue();
-			xOffset += 25;
-			// if(hitMe == 1) {
-			// 	cards.draw(g, 50, 1);
-
-			// }
+	public void addACard(Card newCard) {
+		maxCards[amountOfCards] = newCard;
+		amountOfCards++;
+	}
+	public void drawPlayer(Graphics g) {
+		int xOffset = 25;
+		for (int i=0; i< amountOfCards; i++) {
+			maxCards[i].draw(g, new Rectangle(xOffset, 50, 200, 300));
+			xOffset += 50;
 		}
-		this.amountOfCards = 0;
+		g.drawString( "Player Total: " + this.getValue(), 40, 370);
+		//g.drawString("Player");
 	}
-	public void dealPlayer(Graphics g, int number) {
-		cards.draw(g,0, 50, 1);
+	public void drawDealerFirst(Graphics g) {
+		int xOffset = 25;
+		for (int i=0; i< amountOfCards; i++) {
+			if(i ==0) {
+			maxCards[i].drawBackOfCard(g, new Rectangle(xOffset, 500, 200, 300));
+		} else {
+			maxCards[i].draw(g, new Rectangle(xOffset, 500, 200, 300));
+		}
+		xOffset += 50;
+		}
+		// g.drawString("Dealer Total: " + this.getValue(), 40, 820);
+		//g.drawString("Dealer");
 	}
-	public void dealDealer(Graphics g,int number) {
-		cards.draw(g,0, 200, 4);
+	public void drawDealer(Graphics g) {
+		int xOffset = 25;
+		for (int i= 0; i<amountOfCards; i++) {
+			maxCards[i].draw(g, new Rectangle(xOffset, 500, 200, 300));
+			xOffset += 50;
+
+		}
+		// g.drawString("Dealer Total: " + this.getValue(), 40, 820);
+		//g.drawString("Dealer");
 	}
-
-	// public int hitMe() {
-	// 	//true ==1;
-	// 	//false == 0;
-	// }
-    public void draw(Graphics g) {          
-                for (int i=0; i<amountOfCards; i++) {
-                	this.hand[i].draw(g, new Rectangle(x, 50, 200, 300));
-                
-
-               x+= 25;
-                }
-        }
-
+	public int getValue() {
+		int total = 0;
+		for (int i=0; i<amountOfCards; i++) {
+			total += maxCards[i].getValue2();
+		}
+		if( total > 21) {
+			total = 0;
+			for (int i=0; i<amountOfCards; i++) {
+				total += maxCards[i].getValue();
+			}
+		}
+		return total;
+	}
 }
