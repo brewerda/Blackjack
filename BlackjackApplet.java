@@ -40,6 +40,11 @@ public class BlackjackApplet extends Applet implements ActionListener{
 			dealer.addACard(table.deal());
 		 	playerTotal = player.getValue();
 		 	dealerTotal = dealer.getValue();
+		 	hit.setEnabled(false);
+		 	stay.setEnabled(false);
+		 	bet.setEnabled(true);
+		 	reset.setEnabled(true);
+		 	down.setEnabled(false);
 	}
 	public void init() {
 		
@@ -118,6 +123,13 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		this.add(dealerwin);
 
 
+		hit.setEnabled(false);
+		stay.setEnabled(false);
+		bet.setEnabled(true);
+		reset.setEnabled(true);
+		down.setEnabled(false);
+
+
 	}
 	public int getWallet() {
 		return this.wallet;
@@ -149,6 +161,7 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		int playerTotal = player.getValue();
 		int dealerTotal = dealer.getValue();
 		 if("Hit".equals(ae.getActionCommand())) {
+
 		 	if(playerTotal < 21) {
 		 		player.addACard(table.deal());
 		 		repaint();
@@ -271,6 +284,11 @@ public class BlackjackApplet extends Applet implements ActionListener{
 
 		 }
 		 if("Bet $10".equals(ae.getActionCommand())) {
+		 	hit.setEnabled(true);
+		 	stay.setEnabled(true);
+		 	reset.setEnabled(true);
+		 	down.setEnabled(true);
+
 		 	setWallet(getWallet() - 10);
 		 	walletLabel.setText("You have $" + getWallet() + " dollars.");
 		 	setPot(getpot() + 20);
