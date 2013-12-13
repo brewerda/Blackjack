@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class BlackjackApplet extends Applet implements ActionListener{
-	private JButton hit,stay,reset, down, bet;
+	private JButton hit,stay,reset, down, bet, reduce;
 	private JLabel bust;
 	private int value = 0;
 	private JLabel win,lost, walletLabel, potLabel, score;
@@ -45,6 +45,7 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	bet.setEnabled(true);
 		 	reset.setEnabled(true);
 		 	down.setEnabled(false);
+		 	reduce.setEnabled(false);
 	}
 	public void init() {
 		
@@ -98,6 +99,12 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		bet.addActionListener(this);
 		this.add(bet);
 
+		title = "Reduce Bet";
+		reduce = new JButton(title);
+		reduce.setActionCommand(title);
+		reduce.addActionListener(this);
+		this.add(reduce);
+
 		title = "Double Down";
 		down = new JButton(title);
 		down.setActionCommand(title);
@@ -128,6 +135,7 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		bet.setEnabled(true);
 		reset.setEnabled(true);
 		down.setEnabled(false);
+		reduce.setEnabled(false);
 
 
 	}
@@ -160,6 +168,7 @@ public class BlackjackApplet extends Applet implements ActionListener{
 	public void actionPerformed(ActionEvent ae) {
 		int playerTotal = player.getValue();
 		int dealerTotal = dealer.getValue();
+		bet.setEnabled(false);
 		 if("Hit".equals(ae.getActionCommand())) {
 
 		 	if(playerTotal < 21) {
@@ -168,10 +177,12 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	}
 		 	playerTotal = player.getValue();
 		 	  if(playerTotal > 21) {
+		 	  		hit.setEnabled(false);
 		 	 		setWallet(getWallet() - getpot());
 		 	 		score.setText("You Busted! Dealer Wins");
 		 	 		dealerWin++;
 		 	 }else if(playerTotal == 21) {
+		 	 	hit.setEnabled(false);
 		 	 	setWallet(getWallet() + getpot());
 		 	 	score.setText("21!!!!");
 		 	 	playerWin++;
@@ -189,9 +200,12 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	}else if("Stay".equals(ae.getActionCommand())) {
 		 	int dealertotal = dealer.getValue();
 		 	front = true;
+		 	hit.setEnabled(false);
+		 	down.setEnabled(false);
+
 		 	while(dealertotal < 16 ) {
 		 		dealer.addACard(table.deal());
-		 		dealertotal = dealer.getValue();
+		 		dealertotal=dealer.getValue();
 		 		repaint();
 
 		 		if(playerTotal > 21) {
@@ -254,6 +268,10 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	
 		 }
 		 if("Double Down".equals(ae.getActionCommand())) {
+		 	bet.setEnabled(false);
+		 	hit.setEnabled(false);
+		 	stay.setEnabled(false);
+		 	front = true;
 		 	setWallet(getWallet() - playerBet);
 		 	walletLabel.setText("You have $" + getWallet() + " dollars.");
 		 	setPot(getpot() + playerBet);
@@ -288,6 +306,8 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	stay.setEnabled(true);
 		 	reset.setEnabled(true);
 		 	down.setEnabled(true);
+		 	bet.setEnabled(true);
+		 	reduce.setEnabled(true);
 
 		 	setWallet(getWallet() - 10);
 		 	walletLabel.setText("You have $" + getWallet() + " dollars.");
@@ -295,6 +315,19 @@ public class BlackjackApplet extends Applet implements ActionListener{
 		 	potLabel.setText("There is $" + getpot() + " in the pot.");
 		 	playerBet += 10;
 		 	repaint();
+		 }
+		 if("Reduce Bet".equals(ae.getActionCommand())) {
+		 	bet.setEnabled(true);
+		 	if(getpot() >= 20) {
+		 	setWallet(getWallet() + 10);
+		 	walletLabel.setText("You have $" + getWallet() + " dollars.");
+		 	setPot(getpot() - 20);
+		 	potLabel.setText("There is $" + getpot() + " in the pot.");
+		 	playerBet -= 10;
+		 	repaint();
+		 } else if(getpot() < 20) {
+		 	score.setText("You have not committed any money to bet.");
+		 }
 		 }
 
 
